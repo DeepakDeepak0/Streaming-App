@@ -34,69 +34,71 @@ const VideoUpload = () => {
     });
   };
 
-  function resetForm(){
+  function resetForm() {
     setMeta({
-      title:"",
-      description:""
-    })
-    setSelectedFile(null)
-    setUploading(false)
+      title: "",
+      description: "",
+    });
+    setSelectedFile(null);
+    setUploading(false);
   }
 
   function handleForm(formEvent) {
     formEvent.preventDefault();
     // console.log(meta);
-      // if(!selectedFile){
-      //   alert("Select the File!")
-      // }
+    // if(!selectedFile){
+    //   alert("Select the File!")
+    // }
 
     //submit the file to the server
-    saveVideoToServer(selectedFile,meta);
+    saveVideoToServer(selectedFile, meta);
   }
 
   //submit the file to the server
   const saveVideoToServer = async (video, videoMetaData) => {
     setUploading(true);
 
-    //API call 
-    try{
-
+    //API call
+    try {
       const formData = new FormData();
-      formData.append("title",videoMetaData.title);
-      formData.append("description",videoMetaData.description);
-      formData.append("file",selectedFile);
+      formData.append("title", videoMetaData.title);
+      formData.append("description", videoMetaData.description);
+      formData.append("file", selectedFile);
 
+      const response = await axios.post(
+        "http://localhost:8080/api/v1/videos",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/formData",
+          },
+          onUploadProgress: (progressEvent) => {
+            const progress = Math.round(
+              (progressEvent.loaded * 100) / progressEvent.total
+            );
 
-     const response = await axios.post('http://localhost:8080/api/v1/videos',formData,{
-        headers:{
-          "Content-Type":"multipart/formData"
-        },
-        onUploadProgress:(progressEvent)=>{
-
-          const progress = Math.round((progressEvent.loaded * 100) / progressEvent.total);
-
-          console.log(progress)
-          setProgress(progress);
-
+            console.log(progress);
+            setProgress(progress);
+          },
         }
-      })
-      
-      console.log(response)
-      setMessage("File uploaded")
+      );
+
+      console.log(response);
+      setMessage("File uploaded " + response.data.videoId);
       setUploading(false);
-      toast.success("File uploaded successfully !!")
+      toast.success("File uploaded successfully !!");
       resetForm();
-    }catch(error){
-        console.log(error);
-        setMessage("Error in uploading file");
-        setUploading(false)
-        toast.error("File not uploaded !!");
+    } catch (error) {
+      console.log(error);
+      setMessage("Error in uploading file");
+      setUploading(false);
+      toast.error("File not uploaded !!");
     }
   };
 
   return (
     <>
-      <Card className="flex flex-col items-center justify-center">
+      <Card className="flex flex-col items-center justify-center dark:shadow-inner dark:shadow-white">
         <h1 className="dark:text-blue-300 text-lg font-semibold text-gray-700">
           Videos Uploads
         </h1>
@@ -112,7 +114,7 @@ const VideoUpload = () => {
                 <Label htmlFor="file-upload" value="Video Title" />
               </div>
               <TextInput
-              value={meta.title}
+                value={meta.title}
                 onChange={handleFieldChange}
                 name="title"
                 placeholder="Enter title"
@@ -124,7 +126,7 @@ const VideoUpload = () => {
                 <Label htmlFor="comment" value="Video Description" />
               </div>
               <Textarea
-              value={meta.description}
+                value={meta.description}
                 onChange={handleFieldChange}
                 name="description"
                 id="comment"
@@ -160,21 +162,33 @@ const VideoUpload = () => {
 
             <div>
               {uploading && (
-            <Progress progress={progress} textLabel="Uploading" size="xl" labelProgress labelText />
+                <Progress
+                  progress={progress}
+                  textLabel="Uploading"
+                  size="xl"
+                  labelProgress
+                  labelText
+                />
               )}
             </div>
 
             <div className="">
               {message && (
-                <Alert color="success" onDismiss={()=> setMessage('')}>
-                <span className="font-medium">Success Alert!</span>
-                {message}
-              </Alert>
+                <Alert color="success" onDismiss={() => setMessage("")}>
+                  <span className="font-medium">Success Alert!</span>
+                  {message}
+                </Alert>
               )}
             </div>
 
             <div className="flex justify-center">
-              <Button disabled={uploading} type="submit">Submit</Button>
+              <Button
+                disabled={uploading}
+                type="submit"
+                className=" dark:shadow-inner dark:shadow-white"
+              >
+                Submit
+              </Button>
             </div>
           </form>
         </div>
