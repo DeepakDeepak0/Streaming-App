@@ -44,14 +44,14 @@ function App() {
 
         <div className="flex space-x-2 ">
           <TextInput
-            className="dark:shadow-sm rounded-md dark:shadow-white"
+            className="dark:shadow-sm rounded-xl dark:shadow-white shadow-inner shadow-black"
             onClick={handleVideoIdChange}
             size={32}
             name="video-id-field"
             placeholder="Enter video Id"
           ></TextInput>
           <Button
-            className="dark:shadow-inner dark:shadow-white"
+            className="dark:shadow-inner dark:shadow-white shadow-inner shadow-black"
             onClick={() => setVideoId(fieldValue)}
           >
             {" "}

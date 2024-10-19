@@ -42,7 +42,7 @@ function VideoPlayer({ src }) {
       <div data-vjs-player>
         <video
           ref={videoRef}
-          className="video-js vjs-control-bar w-96 h-56 dark:shadow-inner dark:shadow-white "
+          className="video-js vjs-control-bar w-96 h-56 dark:shadow-inner dark:shadow-white shadow-inner shadow-black bg-white dark:bg-black"
         ></video>
       </div>
     </>

@@ -98,7 +98,10 @@ const VideoUpload = () => {
 
   return (
     <>
-      <Card className="flex flex-col items-center justify-center dark:shadow-inner dark:shadow-white">
+      <Card
+        className="flex flex-col items-center justify-center dark:shadow-inner dark:shadow-white shadow-inner shadow-black
+       "
+      >
         <h1 className="dark:text-blue-300 text-lg font-semibold text-gray-700">
           Videos Uploads
         </h1>
@@ -185,7 +188,7 @@ const VideoUpload = () => {
               <Button
                 disabled={uploading}
                 type="submit"
-                className=" dark:shadow-inner dark:shadow-white"
+                className=" dark:shadow-inner dark:shadow-white shadow-inner shadow-black"
               >
                 Submit
               </Button>
